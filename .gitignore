@@ -6,7 +6,7 @@ target
 /.project
 /.settings
 /RUNNING_PID
-
+*.iml
 
 # Created by https://www.gitignore.io/api/intellijs,sbt,playframework
 

@@ -14,8 +14,14 @@ libraryDependencies ++= Seq(
   javaCore
 )
 
-libraryDependencies += "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.3.0-rc1"
+// https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310
+libraryDependencies += "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.8.5"
 
+resolvers ++= Seq(
+  "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/",
+  "Sonatype OSS Rekeases" at "https://oss.sonatype.org/content/repositories/releases/",
+  "Apache" at "http://repo1.maven.org/maven2"
+)
 
 // Play provides two styles of routers, one expects its actions to be injected, the
 // other, legacy style, accesses its actions statically.

@@ -24,7 +24,7 @@ public class TransactionCategory extends Model{
     public String name;
 
     @NotNull
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm a z")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm")
     public LocalDateTime date;
 
     @NotNull

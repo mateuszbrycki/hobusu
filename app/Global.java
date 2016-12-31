@@ -1,11 +1,17 @@
 
 import com.avaje.ebean.Ebean;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JSR310Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import models.Transaction;
 import models.TransactionCategory;
 import models.TransactionType;
 import models.User;
 import play.Application;
 import play.GlobalSettings;
+import play.libs.Json;
 import play.libs.Yaml;
 
 import java.time.LocalDateTime;
@@ -18,12 +24,24 @@ import java.util.Map;
 public class Global extends GlobalSettings {
     @Override
     public void onStart(Application app) {
-        // Check if the database is empty
-        User user = new User("admin", "admin");
+        this.registerMappers();
+        this.setupDatabase();
 
-            /*Map dataFromFile = (Map) Yaml.load("initial-data.yml");
-            Ebean.save((Map)dataFromFile);*/
+    }
 
+    private void registerMappers() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new Jdk8Module());
+        mapper.registerModule(new JavaTimeModule());
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        Json.setObjectMapper(mapper);
+    }
+
+    private void setupDatabase() {
+
+        if(User.findById("1") == null) {
+            // Check if the database is empty
+            User user = new User("admin", "admin");
             user.save();
 
             this.prepareTransactionCategory(user);
@@ -34,7 +52,7 @@ public class Global extends GlobalSettings {
 
             this.prepareTransactionCategory(user);
             this.prepareTransaction(user);
-
+        }
     }
 
     private void prepareTransactionCategory(User user) {

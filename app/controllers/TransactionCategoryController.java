@@ -1,6 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import controllers.annotation.BasicAuth;
 import models.TransactionCategory;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 /**
  * Created by Mateusz Brycki on 30/12/2016.
  */
+@BasicAuth
 public class TransactionCategoryController extends Controller{
 
     public Result list() {

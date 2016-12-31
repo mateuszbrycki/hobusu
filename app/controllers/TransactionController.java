@@ -1,6 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import controllers.annotation.BasicAuth;
 import models.Transaction;
 import models.TransactionCategory;
 import models.TransactionType;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 /**
  * Created by Mateusz Brycki on 30/12/2016.
  */
+@BasicAuth
 public class TransactionController extends Controller {
 
     public Result list() {
@@ -30,16 +32,6 @@ public class TransactionController extends Controller {
         transaction.save();
 
         return created();
-    }
-
-    public Result generate() {
-
-        new Transaction(30., LocalDateTime.now(), TransactionType.INCOME, TransactionCategory.findById(1L)).save();
-        new Transaction(-30., LocalDateTime.now(), TransactionType.OUTCOME, TransactionCategory.findById(2L)).save();
-        new Transaction(1000., LocalDateTime.now(), TransactionType.INCOME, TransactionCategory.findById(3L)).save();
-        new Transaction(-25., LocalDateTime.now(), TransactionType.OUTCOME, TransactionCategory.findById(4L)).save();
-
-        return ok("Data generated");
     }
 
     private Transaction prepareRequestObject() {

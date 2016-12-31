@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 @Singleton
 public class AuthenticationService {
 
+    public static final String SESSION_USER_KEY = "user_id";
+
     @Inject
     private TokenService tokenService;
 
@@ -21,7 +23,7 @@ public class AuthenticationService {
 
         if(this.tokenService.validateToken(token)) {
             User tokenOwner = Token.findByValue(token).user;
-            context.session().put("userId", tokenOwner.id.toString());
+            context.session().put(SESSION_USER_KEY, tokenOwner.id.toString());
 
             return true;
         }
@@ -36,7 +38,6 @@ public class AuthenticationService {
     }
 
     public void logout(Http.Session session, String requestToken) {
-
         Token token = Token.findByValue(requestToken);
         token.delete();
         session.clear();

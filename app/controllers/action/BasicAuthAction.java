@@ -1,7 +1,5 @@
 package controllers.action;
 
-import models.Token;
-import models.User;
 import play.libs.F;
 import play.mvc.Action;
 import play.mvc.Http;
@@ -31,10 +29,8 @@ public class BasicAuthAction extends Action<Result> {
             context.response().setHeader(WWW_AUTHENTICATE, REALM);
             return F.Promise.pure(unauthorized());
         }
-        if(authenticationService.validateToken(token)) {
-            //TODO mbrycki update context object to handle informations about user
-            User tokenOwner = Token.findByValue(token).user;
-            context.session().put("userId", tokenOwner.id.toString());
+
+        if(authenticationService.isAuthorized(context, token)) {
             return delegate.call(context);
         } else {
             return F.Promise.pure(unauthorized());

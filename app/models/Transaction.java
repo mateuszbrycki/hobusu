@@ -33,18 +33,23 @@ public class Transaction extends Model {
     @ManyToOne
     public TransactionCategory category;
 
+    @NotNull
+    @ManyToOne
+    public User owner;
+
     private static Model.Finder<String, Transaction> find = new Model.Finder<String, Transaction>(Transaction.class);
 
     public Transaction() { }
 
-    public Transaction(Double amount, LocalDateTime date, TransactionType type, TransactionCategory category) {
+    public Transaction(Double amount, LocalDateTime date, TransactionType type, TransactionCategory category, User owner) {
         this.amount = amount;
         this.date = date;
         this.type = type;
         this.category = category;
+        this.owner = owner;
     }
 
-    public static List<Transaction> findAll() {
-        return Transaction.find.all();
+    public static List<Transaction> findAll(User user) {
+        return find.where().eq("owner.id", user.id).findList();
     }
 }

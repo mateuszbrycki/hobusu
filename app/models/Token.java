@@ -15,6 +15,8 @@ import java.time.LocalDateTime;
 @Entity
 public class Token extends Model {
 
+    public static final String DEFAULT_TOKEN_VALUE = "-1";
+
     @Id
     @GeneratedValue
     public Long id;

@@ -1,6 +1,7 @@
 package handler;
 
 import models.User;
+import org.springframework.context.annotation.Bean;
 
 import javax.inject.Scope;
 

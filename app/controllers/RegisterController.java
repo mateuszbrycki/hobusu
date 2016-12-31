@@ -12,6 +12,8 @@ public class RegisterController extends Controller {
 
      public Result register() {
          User user = prepareRequestObject();
+         //TODO mbrycki check if user is unique (mail)
+
          user.save();
 
          return created();

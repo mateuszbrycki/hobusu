@@ -14,6 +14,7 @@ libraryDependencies ++= Seq(
   javaCore
 )
 
+libraryDependencies += "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.3.0-rc1"
 
 
 // Play provides two styles of routers, one expects its actions to be injected, the

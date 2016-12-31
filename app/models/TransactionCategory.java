@@ -1,11 +1,10 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,25 +24,35 @@ public class TransactionCategory extends Model{
     public String name;
 
     @NotNull
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm a z")
     public LocalDateTime date;
+
+    @NotNull
+    @ManyToOne
+    public User owner;
 
     private static Model.Finder<String, TransactionCategory> find
             = new Model.Finder<String, TransactionCategory>(TransactionCategory.class);
+
+    public TransactionCategory() {
+    }
 
     public TransactionCategory(String name) {
         this.name = name;
     }
 
-    public TransactionCategory(String name, LocalDateTime date) {
+    public TransactionCategory(String name, LocalDateTime date, User owner) {
         this.name = name;
         this.date = date;
+        this.owner = owner;
     }
 
     public static TransactionCategory findById(Long id) {
         return find.ref(id.toString());
     }
 
-    public static List<TransactionCategory> findAll() {
-        return find.all();
+    public static List<TransactionCategory> findAll(User user) {
+
+        return find.where().eq("owner.id", user.id).findList();
     }
 }

@@ -1,7 +1,10 @@
 package service;
 
 import models.Token;
+import models.User;
+import play.mvc.Http;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.time.LocalDateTime;
 
@@ -11,24 +14,32 @@ import java.time.LocalDateTime;
 @Singleton
 public class AuthenticationService {
 
-    public Boolean validateToken(String requestToken) {
+    @Inject
+    private TokenService tokenService;
 
-        Token token = Token.findByValue(requestToken);
-        if(token == null) {
-            return false;
+    public Boolean isAuthorized(Http.Context context, String token) {
+
+        if(this.tokenService.validateToken(token)) {
+            User tokenOwner = Token.findByValue(token).user;
+            context.session().put("userId", tokenOwner.id.toString());
+
+            return true;
         }
 
-        //check if token is still valid
-        return this.checkIfTokenDateIsValid(token);
-
+        return false;
     }
 
-    private Boolean checkIfTokenDateIsValid(Token token) {
+    public Token login(User user) {
+        Token token = tokenService.createToken(user);
 
-        LocalDateTime tokenDate = token.date;
-
-        //check if token is not older than 3 days
-        //now - 3 days should be before token creation date
-        return  LocalDateTime.now().minusDays(3).isBefore(tokenDate);
+        return token;
     }
+
+    public void logout(Http.Session session, String requestToken) {
+
+        Token token = Token.findByValue(requestToken);
+        token.delete();
+        session.clear();
+    }
+
 }

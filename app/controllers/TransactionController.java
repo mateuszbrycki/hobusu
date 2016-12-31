@@ -5,6 +5,7 @@ import controllers.annotation.BasicAuth;
 import models.Transaction;
 import models.TransactionCategory;
 import models.TransactionType;
+import models.User;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -15,12 +16,11 @@ import java.time.LocalDateTime;
 /**
  * Created by Mateusz Brycki on 30/12/2016.
  */
-@BasicAuth
-public class TransactionController extends Controller {
+public class TransactionController extends AbstractAuthController {
 
     public Result list() {
-        System.out.println(session().get("userId"));
-        JsonNode result = Json.toJson(Transaction.findAll());
+        User requestUser = getRequestUser();
+        JsonNode result = Json.toJson(Transaction.findAll(requestUser));
         return ok(result);
     }
 
@@ -30,9 +30,17 @@ public class TransactionController extends Controller {
 
         transaction.date = LocalDateTime.now();
         transaction.type = transaction.amount > 0 ? TransactionType.INCOME : TransactionType.OUTCOME;
+        User requestUser = getRequestUser();
+        transaction.owner = requestUser;
+
+        //check if user adds transaction to appropriate category
+        if(transaction.category.owner.id != requestUser.id) {
+            return badRequest();
+        }
+
         transaction.save();
 
-        return created();
+        return created(Json.toJson(transaction.id));
     }
 
     private Transaction prepareRequestObject() {

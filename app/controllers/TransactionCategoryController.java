@@ -3,6 +3,7 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.annotation.BasicAuth;
 import models.TransactionCategory;
+import models.User;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -13,20 +14,21 @@ import java.time.LocalDateTime;
 /**
  * Created by Mateusz Brycki on 30/12/2016.
  */
-@BasicAuth
-public class TransactionCategoryController extends Controller{
+public class TransactionCategoryController extends AbstractAuthController{
 
     public Result list() {
-        JsonNode result = Json.toJson(TransactionCategory.findAll());
+        User requestUser = getRequestUser();
+        JsonNode result = Json.toJson(TransactionCategory.findAll(requestUser));
         return ok(result);
     }
 
     public Result add() {
         TransactionCategory transactionCategory = prepareRequestObject();
         transactionCategory.date = LocalDateTime.now();
+        transactionCategory.owner = getRequestUser();
         transactionCategory.save();
 
-        return created();
+        return created(Json.toJson(transactionCategory.id));
     }
 
     private TransactionCategory prepareRequestObject() {

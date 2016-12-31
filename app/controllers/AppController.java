@@ -5,6 +5,7 @@ import handler.UserHandler;
 import models.Transaction;
 import models.TransactionCategory;
 import models.TransactionType;
+import models.User;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -18,12 +19,6 @@ public class AppController extends Controller{
 
     public Result generate() {
 
-        new Transaction(30., LocalDateTime.now(), TransactionType.INCOME, TransactionCategory.findById(1L)).save();
-        new Transaction(-30., LocalDateTime.now(), TransactionType.OUTCOME, TransactionCategory.findById(2L)).save();
-        new Transaction(1000., LocalDateTime.now(), TransactionType.INCOME, TransactionCategory.findById(3L)).save();
-        new Transaction(-25., LocalDateTime.now(), TransactionType.OUTCOME, TransactionCategory.findById(4L)).save();
-
-        System.out.println(session("userId"));
-        return ok(UserHandler.getUser().toString());
+        return ok("Database is ready!");
     }
 }

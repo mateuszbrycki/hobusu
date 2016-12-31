@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 public class TransactionController extends Controller {
 
     public Result list() {
+        System.out.println(session().get("userId"));
         JsonNode result = Json.toJson(Transaction.findAll());
         return ok(result);
     }

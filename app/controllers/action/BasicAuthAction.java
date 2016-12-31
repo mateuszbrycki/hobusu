@@ -34,7 +34,7 @@ public class BasicAuthAction extends Action<Result> {
         if(authenticationService.validateToken(token)) {
             //TODO mbrycki update context object to handle informations about user
             User tokenOwner = Token.findByValue(token).user;
-
+            context.session().put("userId", tokenOwner.id.toString());
             return delegate.call(context);
         } else {
             return F.Promise.pure(unauthorized());

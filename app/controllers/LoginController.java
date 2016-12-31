@@ -31,7 +31,7 @@ public class LoginController extends Controller {
 
         if(user != null) {
             Token token = new Token();
-            token.user = requestObject;
+            token.user = user;
             token.token = UUID.randomUUID().toString();
             token.date = LocalDateTime.now();
             token.save();
@@ -53,9 +53,10 @@ public class LoginController extends Controller {
 
         String requestToken = request().getHeader(AUTHORIZATION);
         Token token = Token.findByValue(requestToken);
-        token.date = LocalDateTime.now().minusDays(5);
+        token.delete();
+        session().clear();
 
-        return TODO;
+        return ok("Logged  out");
     }
 
     private User prepareRequestObject() {

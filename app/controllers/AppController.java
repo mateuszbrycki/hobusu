@@ -23,6 +23,7 @@ public class AppController extends Controller{
         new Transaction(1000., LocalDateTime.now(), TransactionType.INCOME, TransactionCategory.findById(3L)).save();
         new Transaction(-25., LocalDateTime.now(), TransactionType.OUTCOME, TransactionCategory.findById(4L)).save();
 
+        System.out.println(session("userId"));
         return ok(UserHandler.getUser().toString());
     }
 }

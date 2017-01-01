@@ -12,11 +12,14 @@ public class RegisterController extends Controller {
 
      public Result register() {
          User user = prepareRequestObject();
-         //TODO mbrycki check if user is unique (mail)
 
-         user.save();
+         if(User.isUnique(user)) {
+             user.save();
+             return created();
+         }
 
-         return created();
+         return badRequest("Users data is not unique!");
+
      }
 
     private User prepareRequestObject() {

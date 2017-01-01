@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * Created by Mateusz Brycki on 30/12/2016.
@@ -42,6 +43,16 @@ public class User extends Model {
 
     public static User findById(String userId) {
         return find.byId(userId);
+    }
+
+    public static Boolean isUnique(User user) {
+
+        List<User> usersWithSameMails = find.where().eq("mail", user.mail).findList();
+        if(usersWithSameMails.size() != 0) {
+            return false;
+        }
+
+        return true;
     }
 
     @Override

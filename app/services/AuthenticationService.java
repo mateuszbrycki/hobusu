@@ -1,4 +1,4 @@
-package service;
+package services;
 
 import models.Token;
 import models.User;
@@ -6,7 +6,6 @@ import play.mvc.Http;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.time.LocalDateTime;
 
 /**
  * Created by Mateusz Brycki on 31/12/2016.

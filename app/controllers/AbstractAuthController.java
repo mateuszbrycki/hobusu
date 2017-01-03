@@ -3,7 +3,8 @@ package controllers;
 import controllers.annotation.BasicAuth;
 import models.User;
 import play.mvc.Controller;
-import service.AuthenticationService;
+import repositories.UserRepository;
+import services.AuthenticationService;
 
 /**
  * Created by Mateusz Brycki on 31/12/2016.
@@ -18,6 +19,6 @@ public class AbstractAuthController extends Controller {
             response().setHeader("Location", "http://localhost:9000");
         }
 
-        return User.findById(userId);
+        return UserRepository.findById(userId);
     }
 }

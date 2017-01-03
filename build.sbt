@@ -15,7 +15,7 @@ libraryDependencies ++= Seq(
 )
 
 // https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310
-libraryDependencies += "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.8.5"
+libraryDependencies += "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.6.7"
 
 resolvers ++= Seq(
   "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/",

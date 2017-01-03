@@ -4,7 +4,7 @@ import play.libs.F;
 import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Result;
-import service.AuthenticationService;
+import services.AuthenticationService;
 
 import javax.inject.Inject;
 

@@ -1,9 +1,6 @@
-package handler;
+package handlers;
 
 import models.User;
-import org.springframework.context.annotation.Bean;
-
-import javax.inject.Scope;
 
 /**
  * Created by Mateusz Brycki on 31/12/2016.

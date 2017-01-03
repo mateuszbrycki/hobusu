@@ -8,6 +8,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
+import repositories.TransactionCategoryRepository;
 
 import java.time.LocalDateTime;
 
@@ -18,7 +19,7 @@ public class TransactionCategoryController extends AbstractAuthController{
 
     public Result list() {
         User requestUser = getRequestUser();
-        JsonNode result = Json.toJson(TransactionCategory.findAll(requestUser));
+        JsonNode result = Json.toJson(TransactionCategoryRepository.findAll(requestUser));
         return ok(result);
     }
 

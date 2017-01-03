@@ -13,6 +13,8 @@ import play.Application;
 import play.GlobalSettings;
 import play.libs.Json;
 import play.libs.Yaml;
+import repositories.TransactionCategoryRepository;
+import repositories.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,14 +34,14 @@ public class Global extends GlobalSettings {
     private void registerMappers() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new Jdk8Module());
-        mapper.registerModule(new JavaTimeModule());
+        mapper.registerModule(new JSR310Module());
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         Json.setObjectMapper(mapper);
     }
 
     private void setupDatabase() {
 
-        if(User.findById("1") == null) {
+        if(UserRepository.findById("1") == null) {
             // Check if the database is empty
             User user = new User("admin", "admin");
             user.save();
@@ -63,9 +65,9 @@ public class Global extends GlobalSettings {
     }
 
     private void prepareTransaction(User user) {
-        new Transaction(30., LocalDateTime.now(), TransactionType.INCOME, TransactionCategory.findById(1L), user).save();
-        new Transaction(-30., LocalDateTime.now(), TransactionType.OUTCOME, TransactionCategory.findById(2L), user).save();
-        new Transaction(1000., LocalDateTime.now(), TransactionType.INCOME, TransactionCategory.findById(3L), user).save();
-        new Transaction(-25., LocalDateTime.now(), TransactionType.OUTCOME, TransactionCategory.findById(4L), user).save();
+        new Transaction(30., LocalDateTime.now(), TransactionType.INCOME, TransactionCategoryRepository.findById(1L), user).save();
+        new Transaction(-30., LocalDateTime.now(), TransactionType.OUTCOME, TransactionCategoryRepository.findById(2L), user).save();
+        new Transaction(1000., LocalDateTime.now(), TransactionType.INCOME, TransactionCategoryRepository.findById(3L), user).save();
+        new Transaction(-25., LocalDateTime.now(), TransactionType.OUTCOME, TransactionCategoryRepository.findById(4L), user).save();
     }
 }

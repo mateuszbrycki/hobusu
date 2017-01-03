@@ -39,7 +39,6 @@ public class Transaction extends Model {
     @ManyToOne
     public User owner;
 
-    private static Model.Finder<String, Transaction> find = new Model.Finder<String, Transaction>(Transaction.class);
 
     public Transaction() { }
 
@@ -49,9 +48,5 @@ public class Transaction extends Model {
         this.type = type;
         this.category = category;
         this.owner = owner;
-    }
-
-    public static List<Transaction> findAll(User user) {
-        return find.where().eq("owner.id", user.id).findList();
     }
 }

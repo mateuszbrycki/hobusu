@@ -2,6 +2,7 @@ package models;
 
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import repositories.UserRepository;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,7 +28,6 @@ public class User extends Model {
     @NotNull
     public String password;
 
-    private static Model.Finder<String, User> find = new Model.Finder<String, User>(User.class);
 
     public User() {
     }
@@ -37,17 +37,9 @@ public class User extends Model {
         this.password = password;
     }
 
-    public static User findByMailAndPassword(String mail, String password) {
-        return find.where().eq("mail", mail).eq("password", password).findUnique();
-    }
+    public Boolean isUnique() {
 
-    public static User findById(String userId) {
-        return find.byId(userId);
-    }
-
-    public static Boolean isUnique(User user) {
-
-        List<User> usersWithSameMails = find.where().eq("mail", user.mail).findList();
+        List<User> usersWithSameMails = UserRepository.findByMail(this.mail);
         if(usersWithSameMails.size() != 0) {
             return false;
         }

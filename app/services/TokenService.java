@@ -1,4 +1,4 @@
-package service;
+package services;
 
 import models.Token;
 import models.User;

@@ -13,7 +13,7 @@ public class RegisterController extends Controller {
      public Result register() {
          User user = prepareRequestObject();
 
-         if(User.isUnique(user)) {
+         if(user.isUnique()) {
              user.save();
              return created();
          }

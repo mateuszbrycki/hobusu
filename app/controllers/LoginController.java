@@ -6,7 +6,8 @@ import models.User;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import service.AuthenticationService;
+import repositories.UserRepository;
+import services.AuthenticationService;
 
 import javax.inject.Inject;
 /**
@@ -26,7 +27,7 @@ public class LoginController extends Controller {
     public Result login() {
 
         User requestObject = prepareRequestObject();
-        User user = User.findByMailAndPassword(requestObject.mail, requestObject.password);
+        User user = UserRepository.findByMailAndPassword(requestObject.mail, requestObject.password);
 
         if(user != null) {
             Token token = authenticationService.login(user);

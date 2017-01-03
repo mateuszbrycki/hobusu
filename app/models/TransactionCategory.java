@@ -31,9 +31,6 @@ public class TransactionCategory extends Model{
     @ManyToOne
     public User owner;
 
-    private static Model.Finder<String, TransactionCategory> find
-            = new Model.Finder<String, TransactionCategory>(TransactionCategory.class);
-
     public TransactionCategory() {
     }
 
@@ -47,12 +44,13 @@ public class TransactionCategory extends Model{
         this.owner = owner;
     }
 
-    public static TransactionCategory findById(Long id) {
-        return find.ref(id.toString());
-    }
-
-    public static List<TransactionCategory> findAll(User user) {
-
-        return find.where().eq("owner.id", user.id).findList();
+    @Override
+    public String toString() {
+        return "TransactionCategory{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", date=" + date +
+                ", owner=" + owner +
+                '}';
     }
 }

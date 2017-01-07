@@ -11,7 +11,8 @@ libraryDependencies ++= Seq(
   javaJdbc,
   cache,
   javaWs,
-  javaCore
+  javaCore,
+  filters
 )
 
 // https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310

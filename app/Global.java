@@ -41,7 +41,7 @@ public class Global extends GlobalSettings {
 
     private void setupDatabase() {
 
-        if(UserRepository.findById("1") == null) {
+       /* if(UserRepository.findById("1") == null) {
             // Check if the database is empty
             User user = new User("admin", "admin");
             user.save();
@@ -54,7 +54,7 @@ public class Global extends GlobalSettings {
 
             this.prepareTransactionCategory(user);
             this.prepareTransaction(user);
-        }
+        }*/
     }
 
     private void prepareTransactionCategory(User user) {

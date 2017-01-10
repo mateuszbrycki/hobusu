@@ -65,9 +65,9 @@ public class Global extends GlobalSettings {
     }
 
     private void prepareTransaction(User user) {
-        new Transaction(30., LocalDateTime.now(), TransactionType.INCOME, TransactionCategoryRepository.findById(1L), user).save();
-        new Transaction(-30., LocalDateTime.now(), TransactionType.OUTCOME, TransactionCategoryRepository.findById(2L), user).save();
-        new Transaction(1000., LocalDateTime.now(), TransactionType.INCOME, TransactionCategoryRepository.findById(3L), user).save();
-        new Transaction(-25., LocalDateTime.now(), TransactionType.OUTCOME, TransactionCategoryRepository.findById(4L), user).save();
+//        new Transaction(30., LocalDateTime.now(), TransactionType.INCOME, TransactionCategoryRepository.findById(1L), user).save();
+//        new Transaction(-30., LocalDateTime.now(), TransactionType.OUTCOME, TransactionCategoryRepository.findById(2L), user).save();
+//        new Transaction(1000., LocalDateTime.now(), TransactionType.INCOME, TransactionCategoryRepository.findById(3L), user).save();
+//        new Transaction(-25., LocalDateTime.now(), TransactionType.OUTCOME, TransactionCategoryRepository.findById(4L), user).save();
     }
 }

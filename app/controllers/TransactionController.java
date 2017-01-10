@@ -30,19 +30,25 @@ public class TransactionController extends AbstractAuthController {
     public Result add() {
         Transaction transaction = prepareRequestObject();
 
-        transaction.date = LocalDateTime.now();
-        transaction.type = transaction.amount > 0 ? TransactionType.INCOME : TransactionType.OUTCOME;
-        User requestUser = getRequestUser();
-        transaction.owner = requestUser;
+        if(transaction.date == null) {
+            transaction.date = LocalDateTime.now();
+        }
 
+        if(transaction.type == null) {
+            transaction.type = transaction.amount > 0 ? TransactionType.INCOME : TransactionType.OUTCOME;
+        }
+
+        User requestUser = getRequestUser();
         //check if user adds transaction to appropriate category
         if(transaction.category.owner.id != requestUser.id) {
             return badRequest();
         }
+        transaction.owner = requestUser;
+        transaction.creationDate = LocalDateTime.now();
 
         transaction.save();
 
-        return created(Json.toJson(transaction.id));
+        return created(Json.toJson(transaction));
     }
 
     private Transaction prepareRequestObject() {

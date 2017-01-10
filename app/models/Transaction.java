@@ -29,6 +29,10 @@ public class Transaction extends Model {
     public LocalDateTime date;
 
     @NotNull
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm")
+    public LocalDateTime creationDate;
+
+    @NotNull
     public TransactionType type;
 
     @NotNull
@@ -39,14 +43,18 @@ public class Transaction extends Model {
     @ManyToOne
     public User owner;
 
+    public String description;
+
 
     public Transaction() { }
 
-    public Transaction(Double amount, LocalDateTime date, TransactionType type, TransactionCategory category, User owner) {
+    public Transaction(Double amount, LocalDateTime date, LocalDateTime creationDate, TransactionType type, TransactionCategory category, User owner, String description) {
         this.amount = amount;
         this.date = date;
+        this.creationDate = creationDate;
         this.type = type;
         this.category = category;
         this.owner = owner;
+        this.description = description;
     }
 }

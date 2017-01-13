@@ -45,6 +45,10 @@ public class Transaction extends Model {
 
     public String description;
 
+    public TransactionCategory getCategory() {
+        return category;
+    }
+
 
     public Transaction() { }
 

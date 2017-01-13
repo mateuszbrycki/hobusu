@@ -22,7 +22,7 @@ public class TransactionController extends AbstractAuthController {
 
     public Result list() {
         User requestUser = getRequestUser();
-        JsonNode result = Json.toJson(TransactionRepository.findAll(requestUser));
+        JsonNode result = Json.toJson(TransactionRepository.findLast10(requestUser));
         return ok(result);
     }
 

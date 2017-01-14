@@ -22,4 +22,10 @@ public class StatisticsController extends AbstractAuthController {
         JsonNode result = Json.toJson(statisticsService.summarizeCategoryMonthly(requestUser));
         return ok(result);
     }
+
+    public Result accountBalanceMonthly() {
+        User requestUser = getRequestUser();
+        JsonNode result = Json.toJson(statisticsService.accountBalanceMonthly(requestUser));
+        return ok(result);
+    }
 }

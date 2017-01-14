@@ -2,11 +2,18 @@ package services;
 
 import javax.inject.Inject;
 
+import dtos.AccountBalanceEntry;
 import models.Transaction;
 import models.TransactionCategory;
 import models.User;
+import org.springframework.cglib.core.Local;
 import repositories.TransactionRepository;
+import utils.DateUtil;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -22,16 +29,47 @@ public class StatisticsService {
 
         List<Transaction> transactions = transactionRepository.findFromCurrentMonth(user);
 
-        Map<String, Double> result = new HashMap<>();
+        Map<String, Double> result = transactions.stream().collect(
+                Collectors.toMap(t -> t.getCategory().getName(), Transaction::getAmount, (first, second) -> first + second)
+        );
 
-        transactions.forEach(transaction -> {
-            String categoryName = transaction.getCategory().getName();
+        return result;
+    }
 
-            Double fromMap = result.get(categoryName);
-            Double summary = fromMap != null ? result.get(categoryName) : 0d;
-            summary = summary + transaction.amount;
+    public List<AccountBalanceEntry> accountBalanceMonthly(User user) {
 
-            result.put(categoryName, summary);
+        List<Transaction> transactions = transactionRepository.findFromCurrentMonth(user);
+
+        Map<String, Double> summarizedValues = summarizeTransactionsData(transactions);
+
+        return convertSummarizedToList(summarizedValues);
+    }
+
+    private Map<String, Double> summarizeTransactionsData(List<Transaction> transactions) {
+        LocalDateTime todayDate = LocalDateTime.now();
+        YearMonth yearMonth = YearMonth.of(todayDate.getYear(), todayDate.getMonth());
+        Integer monthDays = yearMonth.lengthOfMonth();
+
+        Map<String, Double> summarizedValues = transactions.stream().collect(
+                Collectors.toMap(t -> DateUtil.dateToCommonFormat(t.getDate()), Transaction::getAmount, (first, second) -> first + second)
+        );
+
+        return summarizedValues;
+    }
+
+
+    private List<AccountBalanceEntry> convertSummarizedToList(Map<String, Double> summarizedValues) {
+        List<AccountBalanceEntry> result = new ArrayList<>(summarizedValues.size());
+
+        for(Map.Entry<String, Double> entry : summarizedValues.entrySet()) {
+            result.add(new AccountBalanceEntry(LocalDate.parse(entry.getKey()), entry.getValue()));
+        }
+
+        Collections.sort(result, new Comparator<AccountBalanceEntry>() {
+            @Override
+            public int compare(AccountBalanceEntry o1, AccountBalanceEntry o2) {
+                return o1.getDay().compareTo(o2.getDay());
+            }
         });
 
         return result;

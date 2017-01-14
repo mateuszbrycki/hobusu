@@ -49,6 +49,13 @@ public class Transaction extends Model {
         return category;
     }
 
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
 
     public Transaction() { }
 

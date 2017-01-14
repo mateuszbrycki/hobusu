@@ -2,6 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.annotation.BasicAuth;
+import factories.TransactionFactory;
 import models.Transaction;
 import models.TransactionCategory;
 import models.TransactionType;
@@ -13,6 +14,8 @@ import repositories.TransactionCategoryRepository;
 import repositories.TransactionRepository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -22,7 +25,8 @@ public class TransactionController extends AbstractAuthController {
 
     public Result list() {
         User requestUser = getRequestUser();
-        JsonNode result = Json.toJson(TransactionRepository.findLast10(requestUser));
+        List<dtos.Transaction> last10transactions = covert(TransactionRepository.findLast10(requestUser));
+        JsonNode result = Json.toJson(last10transactions);
         return ok(result);
     }
 
@@ -61,5 +65,13 @@ public class TransactionController extends AbstractAuthController {
         transaction.category = TransactionCategoryRepository.findById(categoryId);
 
         return transaction;
+    }
+
+    private List<dtos.Transaction> covert(List<Transaction> transactions) {
+        List<dtos.Transaction> result = new ArrayList<>();
+
+        transactions.forEach(transaction -> result.add(TransactionFactory.create(transaction)));
+
+        return result;
     }
 }

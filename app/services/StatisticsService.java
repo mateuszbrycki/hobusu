@@ -25,12 +25,12 @@ public class StatisticsService {
     @Inject
     private TransactionRepository transactionRepository;
 
-    public Map<String, Double> summarizeCategoryMonthly(User user) {
+    public Map<TransactionCategory, Double> summarizeCategoryMonthly(User user) {
 
         List<Transaction> transactions = transactionRepository.findFromCurrentMonth(user);
 
-        Map<String, Double> result = transactions.stream().collect(
-                Collectors.toMap(t -> t.getCategory().getName(), Transaction::getAmount, (first, second) -> first + second)
+        Map<TransactionCategory, Double> result = transactions.stream().collect(
+                Collectors.toMap(t -> t.getCategory(), Transaction::getAmount, (first, second) -> first + second)
         );
 
         return result;

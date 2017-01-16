@@ -30,7 +30,7 @@ public class StatisticsService {
         List<Transaction> transactions = transactionRepository.findFromCurrentMonth(user);
 
         Map<TransactionCategory, Double> result = transactions.stream().collect(
-                Collectors.toMap(t -> t.getCategory(), Transaction::getAmount, (first, second) -> first + second)
+                Collectors.toMap(t -> t.category, Transaction::getAmount, (first, second) -> first + second)
         );
 
         return result;

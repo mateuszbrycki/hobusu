@@ -18,7 +18,9 @@ public class TransactionRepository {
     }
 
     public static List<Transaction> findLast10(User user) {
-        return find.where()
+        return find
+                .fetch("category")
+                .where()
                 .eq("owner.id", user.id)
                 .orderBy("date desc")
                 .setMaxRows(10)

@@ -27,6 +27,10 @@ public class TransactionRepository {
                 .findList();
     }
 
+    public static Transaction findById(Long id) {
+        return find.where().eq("id", id).findUnique();
+    }
+
     public static List<Transaction> findFromCurrentMonth(User user) {
         return find.where()
                 .eq("owner.id", user.id)

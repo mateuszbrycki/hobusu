@@ -74,4 +74,16 @@ public class TransactionController extends AbstractAuthController {
 
         return result;
     }
+
+    public Result delete(Long id) {
+        User requestUser = getRequestUser();
+        Transaction transaction = TransactionRepository.findById(id);
+
+        if(transaction.owner.equals(requestUser)) {
+            transaction.delete();
+            return ok();
+        }
+
+        return unauthorized();
+    }
 }

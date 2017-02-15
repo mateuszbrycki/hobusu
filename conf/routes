@@ -27,5 +27,6 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 
 #Statistics
-GET /statistic/category/monthly     controllers.StatisticsController.summarizeCategoryMonthly()
-GET /statistic/account/balance     controllers.StatisticsController.accountBalanceMonthly()
+GET /statistic/category/monthly     controllers.statistics.CategoryStatisticsController.summarizeCategoryMonthly()
+GET /statistic/account/balance     controllers.statistics.AccountStatisticsController.accountSummaryDaily()
+GET /statistic/account/summary/month     controllers.statistics.AccountStatisticsController.accountSummaryMonthly()

@@ -23,7 +23,7 @@ public class TransactionRepository {
                 .where()
                 .eq("owner.id", user.id)
                 .orderBy("date desc")
-                .setMaxRows(10)
+                .setMaxRows(15)
                 .findList();
     }
 

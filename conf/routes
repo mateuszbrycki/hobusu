@@ -30,3 +30,4 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 GET /statistic/category/monthly     controllers.statistics.CategoryStatisticsController.summarizeCategoryMonthly()
 GET /statistic/account/balance     controllers.statistics.AccountStatisticsController.accountSummaryDaily()
 GET /statistic/account/summary/month     controllers.statistics.AccountStatisticsController.accountSummaryMonthly()
+GET /statistic/transaction/expensive    controllers.statistics.TransactionStatisticsController.mostExpensiveTransactions()

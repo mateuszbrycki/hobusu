@@ -37,4 +37,13 @@ public class TransactionRepository {
                 .eq("MONTH(date)", LocalDateTime.now().getMonth().getValue())
                 .findList();
     }
+
+    public static List<Transaction> findMostExpensiveTransactions(User user) {
+        return find.where()
+                .eq("owner.id", user.id)
+                .ge("date", LocalDateTime.now().minusMonths(3).toString())
+                .orderBy("amount desc")
+                .setMaxRows(10)
+                .findList();
+    }
 }

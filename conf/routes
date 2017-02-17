@@ -9,6 +9,9 @@ GET     /transaction                controllers.TransactionController.list()
 POST    /transaction                controllers.TransactionController.add()
 DELETE  /transaction/:id          controllers.TransactionController.delete(id: Long)
 
+GET  /transaction/limit/:limit         controllers.TransactionController.listWithLimit(limit: Long)
+GET  /transaction/:year/:month         controllers.TransactionController.listForMonth(year: Long, month: Long)
+GET  /transaction-date                 controllers.DateController.getAvailableMonthsAndYears()
 #TransactionCategory
 GET     /category                   controllers.TransactionCategoryController.list()
 POST    /category                   controllers.TransactionCategoryController.add()

@@ -1,14 +1,11 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import controllers.annotation.BasicAuth;
 import factories.TransactionFactory;
 import models.Transaction;
-import models.TransactionCategory;
 import models.TransactionType;
 import models.User;
 import play.libs.Json;
-import play.mvc.Controller;
 import play.mvc.Result;
 import repositories.TransactionCategoryRepository;
 import repositories.TransactionRepository;
@@ -25,8 +22,22 @@ public class TransactionController extends AbstractAuthController {
 
     public Result list() {
         User requestUser = getRequestUser();
-        List<dtos.Transaction> last10transactions = covert(TransactionRepository.findLast10(requestUser));
-        JsonNode result = Json.toJson(last10transactions);
+        List<dtos.Transaction> allTransactions = convert(TransactionRepository.findAll(requestUser));
+        JsonNode result = Json.toJson(allTransactions);
+        return ok(result);
+    }
+
+    public Result listForMonth(Long year, Long month) {
+        User requestUser = getRequestUser();
+        List<dtos.Transaction> transactions = convert(TransactionRepository.findAllForDate(requestUser, year, month));
+        JsonNode result = Json.toJson(transactions);
+        return ok(result);
+    }
+
+    public Result listWithLimit(Long limit) {
+        User requestUser = getRequestUser();
+        List<dtos.Transaction> limitedTransactions = convert(TransactionRepository.findLast(requestUser, limit));
+        JsonNode result = Json.toJson(limitedTransactions);
         return ok(result);
     }
 
@@ -67,7 +78,7 @@ public class TransactionController extends AbstractAuthController {
         return transaction;
     }
 
-    private List<dtos.Transaction> covert(List<Transaction> transactions) {
+    private List<dtos.Transaction> convert(List<Transaction> transactions) {
         List<dtos.Transaction> result = new ArrayList<>();
 
         transactions.forEach(transaction -> result.add(TransactionFactory.create(transaction)));

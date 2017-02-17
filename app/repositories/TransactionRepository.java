@@ -17,13 +17,13 @@ public class TransactionRepository {
         return find.where().eq("owner.id", user.id).findList();
     }
 
-    public static List<Transaction> findLast10(User user) {
+    public static List<Transaction> findLast(User user, Long limit) {
         return find
                 .fetch("category")
                 .where()
                 .eq("owner.id", user.id)
                 .orderBy("date desc")
-                .setMaxRows(15)
+                .setMaxRows(limit.intValue())
                 .findList();
     }
 
@@ -32,18 +32,33 @@ public class TransactionRepository {
     }
 
     public static List<Transaction> findFromCurrentMonth(User user) {
-        return find.where()
+        return find
+                .fetch("category")
+                .where()
                 .eq("owner.id", user.id)
                 .eq("MONTH(date)", LocalDateTime.now().getMonth().getValue())
                 .findList();
     }
 
     public static List<Transaction> findMostExpensiveTransactions(User user) {
-        return find.where()
+        return find
+                .fetch("category")
+                .where()
                 .eq("owner.id", user.id)
                 .ge("date", LocalDateTime.now().minusMonths(3).toString())
                 .orderBy("amount desc")
                 .setMaxRows(10)
+                .findList();
+    }
+
+    public static List<Transaction> findAllForDate(User user, Long year, Long month) {
+        return find
+                .fetch("category")
+                .where()
+                .eq("owner.id", user.id)
+                .eq("YEAR(date)", year)
+                .eq("MONTH(date)", month)
+                .orderBy("date desc")
                 .findList();
     }
 }

@@ -51,12 +51,7 @@ public class AccountStatisticsService {
         summarizedValues.entrySet().forEach(entry ->
                 result.add(new DaySummary(LocalDate.parse(entry.getKey()), entry.getValue())));
 
-        Collections.sort(result, new Comparator<DaySummary>() {
-            @Override
-            public int compare(DaySummary o1, DaySummary o2) {
-                return o1.getDay().compareTo(o2.getDay());
-            }
-        });
+        Collections.sort(result, Comparator.comparing(DaySummary::getDay));
 
         return result;
     }
@@ -68,6 +63,7 @@ public class AccountStatisticsService {
                 result.add(new MonthSummary(element.getKey(), element.getValue()))
         );
 
+        Collections.sort(result, Comparator.comparing(MonthSummary::getMonth));
         return result;
     }
 }
